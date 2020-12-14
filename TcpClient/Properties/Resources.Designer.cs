@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 
-namespace TcpClient.Properties
+namespace Client.Properties
 {
     /// <summary>
     ///   Silnie typizowana klasa zasobów do wyszukiwania zlokalizowanych ciągów itd.

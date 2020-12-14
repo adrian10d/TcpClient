@@ -1,5 +1,5 @@
 ﻿
-namespace TcpClient
+namespace Client
 {
     partial class Form1
     {

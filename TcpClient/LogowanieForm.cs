@@ -5,10 +5,11 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace TcpClient
+namespace Client
 {
     public partial class LogowanieForm : Form
     {
@@ -24,7 +25,7 @@ namespace TcpClient
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.label1.Visible = false;
+            this.label3.Visible = false;
             byte[] message = new ASCIIEncoding().GetBytes("1");
             Global.GlobalVar.GetStream().Write(message, 0, message.Length);
             Thread.Sleep(500);
@@ -40,8 +41,8 @@ namespace TcpClient
 
             if (otrzymane == "0")
             {
-                this.label1.Text = "Nie udalo sie zalogowac!";
-                this.label1.Visible = true;
+                this.label3.Text = "Nie udalo sie zalogowac!";
+                this.label3.Visible = true;
             }
             else if (otrzymane == "1")
             {
@@ -50,6 +51,13 @@ namespace TcpClient
                 f3.Show();
             }
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            Form1 f1 = new Form1();
+            f1.Show();
         }
     }
 }

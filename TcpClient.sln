@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30711.63
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TcpClient", "TcpClient\TcpClient.csproj", "{902FC976-CC9A-4E35-9844-3C3112C68985}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "TcpClient\Client.csproj", "{902FC976-CC9A-4E35-9844-3C3112C68985}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
