@@ -44,6 +44,10 @@ namespace Client
 
         private void button3_Click(object sender, EventArgs e)
         {
+            string zakoncz = "klientkonczypolaczenie";
+            byte[] message1 = new ASCIIEncoding().GetBytes(zakoncz);
+            Global.GlobalVar.GetStream().Write(message1, 0, message1.Length);
+            System.Windows.Forms.Application.ExitThread();
             this.Close();
         }
     }
