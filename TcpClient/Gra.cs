@@ -41,5 +41,10 @@ namespace Client
             Form1 f1 = new Form1();
             f1.Show();
         }
+
+        private void Gra_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -47,8 +47,10 @@ namespace Client
             else if (otrzymane == "1")
             {
                 this.Close();
-                Gra f3 = new Gra();
-                f3.Show();
+             //   Gra f3 = new Gra();
+            //    f3.Show();
+                BazaFilmow baza = new BazaFilmow();
+                baza.Show();
             }
 
         }

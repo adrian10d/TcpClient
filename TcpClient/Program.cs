@@ -26,7 +26,7 @@ namespace Client
         [STAThread]
         static void Main()
         {
-            //TcpClient client = new TcpClient();
+            //Client client = new Client();
             Global.GlobalVar.Connect(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 2048));
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
