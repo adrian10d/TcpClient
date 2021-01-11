@@ -21,8 +21,11 @@ namespace Client
             //DataTable res = ConvertCSVtoDataTable(filepath);
             //DataTable res = utworz_tabele();
             //dataGridView1.DataSource = res;
-            dataGridView1.ColumnCount = 1;
-            dataGridView1.Columns[0].Name = "Nazwa filmu";
+
+            // dataGridView1.ColumnCount = 1; to wczesniej
+            // dataGridView1.Columns[0].Name = "Nazwa filmu"; i to
+
+            dataGridView1.DataSource = odbierz_baze_filmow();
 
             bool koniec = false;
             while (!koniec)
@@ -44,56 +47,45 @@ namespace Client
             }
         }
 
-        /*public static DataTable utworz_tabele()
+        private static void wyslij(string wiadomosc)
         {
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Nazwa");
-            DataRow dr = dt.NewRow();
-            bool koniec = false;
-            while(!koniec)
-            {
-                byte[] buffer = new byte[1024];
-                int wielkosc = Global.GlobalVar.GetStream().Read(buffer, 0, 1024);
-                string otrzymane = System.Text.Encoding.ASCII.GetString(buffer, 0, wielkosc);
-                string odp = "ok133";
-                byte[] message1 = new ASCIIEncoding().GetBytes(odp);
-                Global.GlobalVar.GetStream().Write(message1, 0, message1.Length);
-                if (otrzymane == "endoffile")
-                    koniec = true;
-                else
-                {
-                    dr[0] = otrzymane;
-                    dt.Rows.Add(otrzymane);
-                }
-            }
-            return dt;
+            byte[] buffer = new ASCIIEncoding().GetBytes(wiadomosc);
+            Global.GlobalVar.GetStream().Write(buffer, 0, buffer.Length);
         }
 
-        public static void utworz_tabele2()
+        private static string odbierz()
         {
-            //DataTable dt = new DataTable();
-            //dt.Columns.Add("Nazwa");
-            //DataRow dr = dt.NewRow();
-            
-            bool koniec = false;
-            while (!koniec)
+            byte[] buffer = new byte[1024];
+            int wielkosc = Global.GlobalVar.GetStream().Read(buffer, 0, 1024);
+            return System.Text.Encoding.ASCII.GetString(buffer, 0, wielkosc);
+        }
+
+       public static DataTable odbierz_baze_filmow()
+        {
+            string otrzymane = odbierz();
+
+            string[] naglowki = otrzymane.Split(',');
+            DataTable dt = new DataTable();
+            foreach (string naglowek in naglowki)
             {
-                byte[] buffer = new byte[1024];
-                int wielkosc = Global.GlobalVar.GetStream().Read(buffer, 0, 1024);
-                string otrzymane = System.Text.Encoding.ASCII.GetString(buffer, 0, wielkosc);
-                string odp = "ok133";
-                byte[] message1 = new ASCIIEncoding().GetBytes(odp);
-                Global.GlobalVar.GetStream().Write(message1, 0, message1.Length);
-                if (otrzymane == "endoffile")
-                    koniec = true;
-                else
-                {
-                    //dr[0] = otrzymane;
-                    //this.dataGridView1.Rows.Add(otrzymane);
-                }
+                dt.Columns.Add(naglowek);
             }
-            //return dt;
-        }*/
+            wyslij("1");
+            while (otrzymane != "endoffile")
+            {
+                otrzymane = odbierz();
+                string[] rows = Regex.Split(otrzymane, ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
+                DataRow dr = dt.NewRow();
+                for (int i = 0; i < naglowki.Length; i++)
+                {
+                    dr[i] = rows[i];
+                }
+                dt.Rows.Add(dr);
+                wyslij("1");
+            }
+            return dt;
+
+        }
 
 
 
@@ -105,7 +97,8 @@ namespace Client
             foreach (string header in headers)
             {
                 dt.Columns.Add(header);
-            } while (!sr.EndOfStream)
+            }
+            while (!sr.EndOfStream)
             {
                 string[] rows = Regex.Split(sr.ReadLine(), ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
                 DataRow dr = dt.NewRow();
@@ -141,6 +134,7 @@ namespace Client
             //row.Cells[0].Value = film;
             string[] row = new string[] { film };
             dataGridView1.Rows.Add(row);
+            odbierz_baze_filmow();
         }
 
         private void button2_Click(object sender, EventArgs e)
